@@ -129,7 +129,7 @@ export default function ContactCard({
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
     >
-      <div className="bg-white rounded-xl border border-slate-200 p-4 cursor-move hover:shadow-md transition-all">
+      <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 cursor-move hover:shadow-md transition-all">
         <div className="flex items-center gap-2 mb-2">
           <div
             className={`w-2.5 h-2.5 rounded-full ${STATUS_COLORS[contact.status]}`}
@@ -139,17 +139,17 @@ export default function ContactCard({
             style={{ backgroundColor: contact.color || "#3b82f6" }}
           />
           <div className="flex-1 min-w-0">
-            <h4 className="font-medium text-slate-800 text-sm truncate">
+            <h4 className="font-medium text-slate-800 dark:text-slate-100 text-sm truncate">
               {contact.name}
             </h4>
             {contact.role && (
-              <p className="text-xs text-slate-500 truncate">{contact.role}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{contact.role}</p>
             )}
           </div>
         </div>
 
         {contact.company && (
-          <p className="text-xs text-slate-400 mb-2 truncate">
+          <p className="text-xs text-slate-400 dark:text-slate-500 mb-2 truncate">
             {contact.company}
           </p>
         )}
@@ -159,7 +159,7 @@ export default function ContactCard({
             {contact.tags.map((tag) => (
               <span
                 key={tag.id}
-                className="text-[10px] px-2 py-0.5 rounded-full font-medium text-slate-600"
+                className="text-[10px] px-2 py-0.5 rounded-full font-medium text-slate-600 dark:text-slate-300"
                 style={{ backgroundColor: getTagColor(tag.label) }}
               >
                 #{tag.label}

@@ -5,10 +5,27 @@ import {
   useState,
   useCallback,
   useEffect,
+  useSyncExternalStore,
   type ReactNode,
   type MouseEvent,
   type WheelEvent,
 } from "react";
+
+function useDarkMode() {
+  const subscribe = useCallback((cb: () => void) => {
+    const observer = new MutationObserver(cb);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => observer.disconnect();
+  }, []);
+  return useSyncExternalStore(
+    subscribe,
+    () => document.documentElement.classList.contains("dark"),
+    () => false
+  );
+}
 
 interface CanvasProps {
   children: ReactNode;
@@ -27,6 +44,7 @@ export default function Canvas({
   onZoomChange,
   onPanChange,
 }: CanvasProps) {
+  const dark = useDarkMode();
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
@@ -94,11 +112,11 @@ export default function Canvas({
       style={{
         cursor: isPanning ? "grabbing" : "grab",
         background: `
-          radial-gradient(circle, #cbd5e1 1px, transparent 1px)
+          radial-gradient(circle, ${dark ? "#334155" : "#cbd5e1"} 1px, transparent 1px)
         `,
         backgroundSize: `${24 * zoom}px ${24 * zoom}px`,
         backgroundPosition: `${pan.x}px ${pan.y}px`,
-        backgroundColor: "#f8fafc",
+        backgroundColor: dark ? "#0f172a" : "#f8fafc",
       }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}

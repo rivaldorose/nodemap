@@ -16,7 +16,7 @@ export default function Sidebar({
   return (
     <>
       {/* Left icon sidebar */}
-      <div className="fixed left-0 top-0 bottom-0 w-[52px] bg-white border-r border-slate-200 flex flex-col items-center py-4 gap-3 z-50">
+      <div className="fixed left-0 top-0 bottom-0 w-[52px] bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col items-center py-4 gap-3 z-50">
         {/* Logo */}
         <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center text-white text-xs font-bold mb-4">
           NM
@@ -24,7 +24,7 @@ export default function Sidebar({
 
         {/* Cursor tool */}
         <button
-          className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-slate-200"
+          className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600"
           title="Select"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -35,7 +35,7 @@ export default function Sidebar({
         {/* Add contact */}
         <button
           onClick={onAddContact}
-          className="w-9 h-9 rounded-lg hover:bg-blue-50 flex items-center justify-center text-slate-500 hover:text-blue-600"
+          className="w-9 h-9 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400"
           title="Add contact"
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -45,7 +45,7 @@ export default function Sidebar({
 
         {/* Connection tool */}
         <button
-          className="w-9 h-9 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-700"
+          className="w-9 h-9 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
           title="Connect (Shift+drag)"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -58,7 +58,7 @@ export default function Sidebar({
         {/* Fit view */}
         <button
           onClick={onFitView}
-          className="w-9 h-9 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-700"
+          className="w-9 h-9 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
           title="Fit view"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -71,19 +71,19 @@ export default function Sidebar({
       <div className="fixed right-4 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-40">
         <button
           onClick={onZoomIn}
-          className="w-9 h-9 bg-white border border-slate-200 rounded-lg shadow-sm flex items-center justify-center text-slate-600 hover:bg-slate-50"
+          className="w-9 h-9 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"
         >
           +
         </button>
         <button
           onClick={onZoomOut}
-          className="w-9 h-9 bg-white border border-slate-200 rounded-lg shadow-sm flex items-center justify-center text-slate-600 hover:bg-slate-50"
+          className="w-9 h-9 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700"
         >
           −
         </button>
         <button
           onClick={onFitView}
-          className="w-9 h-9 bg-white border border-slate-200 rounded-lg shadow-sm flex items-center justify-center text-slate-600 hover:bg-slate-50 text-xs"
+          className="w-9 h-9 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 text-xs"
         >
           Fit
         </button>

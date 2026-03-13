@@ -1,6 +1,23 @@
 "use client";
 
+import { useCallback, useSyncExternalStore } from "react";
 import type { Contact } from "./ContactCard";
+
+function useDarkMode() {
+  const subscribe = useCallback((cb: () => void) => {
+    const observer = new MutationObserver(cb);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => observer.disconnect();
+  }, []);
+  return useSyncExternalStore(
+    subscribe,
+    () => document.documentElement.classList.contains("dark"),
+    () => false
+  );
+}
 
 interface Connection {
   id: string;
@@ -32,6 +49,8 @@ export default function EdgeLayer({
   rootX,
   rootY,
 }: EdgeLayerProps) {
+  const dark = useDarkMode();
+  const strokeColor = dark ? "#64748b" : "#94a3b8";
   const contactMap = new Map(contacts.map((c) => [c.id, c]));
 
   // Draw connections from root to each contact + inter-contact connections
@@ -91,7 +110,7 @@ export default function EdgeLayer({
         >
           <polygon
             points="0 0, 10 3.5, 0 7"
-            fill="#94a3b8"
+            fill={strokeColor}
           />
         </marker>
       </defs>
@@ -99,13 +118,13 @@ export default function EdgeLayer({
         <g key={edge.id}>
           <path
             d={edge.path}
-            stroke="#94a3b8"
+            stroke={strokeColor}
             strokeWidth={1.5}
             fill="none"
             strokeDasharray={edge.dashed ? "6 4" : "none"}
             markerEnd="url(#arrowhead)"
           />
-          <circle cx={edge.fromX} cy={edge.fromY} r={4} fill="#94a3b8" />
+          <circle cx={edge.fromX} cy={edge.fromY} r={4} fill={strokeColor} />
         </g>
       ))}
     </svg>
