@@ -12,9 +12,6 @@ interface ToolbarProps {
   currentEventId: string;
   onEventChange: (eventId: string) => void;
   contactCount: number;
-  userName?: string | null;
-  userImage?: string | null;
-  onSignOut: () => void;
 }
 
 export default function Toolbar({
@@ -22,9 +19,6 @@ export default function Toolbar({
   currentEventId,
   onEventChange,
   contactCount,
-  userName,
-  userImage,
-  onSignOut,
 }: ToolbarProps) {
   const [elapsed, setElapsed] = useState(0);
 
@@ -75,27 +69,11 @@ export default function Toolbar({
         </div>
       </div>
 
-      {/* Right: User info + count */}
+      {/* Right: Contact count */}
       <div className="flex items-center gap-3">
         <span className="text-xs text-slate-400">
           {contactCount} contacts
         </span>
-        <div className="flex items-center gap-2">
-          {userImage && (
-            <img
-              src={userImage}
-              alt=""
-              className="w-7 h-7 rounded-full"
-            />
-          )}
-          <span className="text-sm text-slate-600">{userName}</span>
-          <button
-            onClick={onSignOut}
-            className="text-xs text-slate-400 hover:text-slate-600 ml-1"
-          >
-            Sign out
-          </button>
-        </div>
       </div>
     </div>
   );

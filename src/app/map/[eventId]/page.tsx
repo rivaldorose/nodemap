@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import Canvas from "@/components/Canvas";
@@ -31,7 +30,6 @@ const ROOT_X = 2500;
 const ROOT_Y = 2500;
 
 export default function MapPage() {
-  const { data: session, status } = useSession();
   const router = useRouter();
   const params = useParams();
   const eventId = params.eventId as string;
@@ -48,24 +46,17 @@ export default function MapPage() {
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [connectingFrom, setConnectingFrom] = useState<string | null>(null);
 
-  // Redirect if not authenticated
-  useEffect(() => {
-    if (status === "unauthenticated") router.replace("/");
-  }, [status, router]);
-
   // Load events list for toolbar dropdown
   useEffect(() => {
-    if (session) {
-      fetch("/api/events")
-        .then((r) => r.json())
-        .then(setEvents)
-        .catch(console.error);
-    }
-  }, [session]);
+    fetch("/api/events")
+      .then((r) => r.json())
+      .then(setEvents)
+      .catch(console.error);
+  }, []);
 
   // Load event contacts and connections
   useEffect(() => {
-    if (!session || !eventId) return;
+    if (!eventId) return;
 
     fetch(`/api/contacts?eventId=${eventId}`)
       .then((r) => r.json())
@@ -76,7 +67,7 @@ export default function MapPage() {
       .then((r) => r.json())
       .then(setConnections)
       .catch(console.error);
-  }, [session, eventId]);
+  }, [eventId]);
 
   // Set current event from events list
   useEffect(() => {
@@ -105,6 +96,8 @@ export default function MapPage() {
       role: string;
       company: string;
       linkedin: string;
+      email: string;
+      phone: string;
       notes: string;
       status: "active" | "pending" | "inactive";
       color: string;
@@ -118,6 +111,8 @@ export default function MapPage() {
         role: data.role || null,
         company: data.company || null,
         linkedin: data.linkedin || null,
+        email: data.email || null,
+        phone: data.phone || null,
         notes: data.notes || null,
         status: data.status,
         color: data.color,
@@ -143,7 +138,6 @@ export default function MapPage() {
 
   const handleDragEnd = useCallback(
     async (id: string, x: number, y: number) => {
-      // Optimistic update
       setContacts((prev) =>
         prev.map((c) =>
           c.id === id ? { ...c, x: Math.round(x), y: Math.round(y) } : c
@@ -198,7 +192,6 @@ export default function MapPage() {
             c.id === contactId ? { ...c, tags: [...c.tags, tag] } : c
           )
         );
-        // Update selected contact too
         setSelectedContact((prev) =>
           prev && prev.id === contactId
             ? { ...prev, tags: [...prev.tags, tag] }
@@ -224,7 +217,6 @@ export default function MapPage() {
     );
   }, []);
 
-  // Connection creation via Shift+drag
   const handleShiftDragStart = useCallback((contactId: string) => {
     setConnectingFrom(contactId);
   }, []);
@@ -235,7 +227,6 @@ export default function MapPage() {
         setConnectingFrom(null);
         return;
       }
-      // Check for duplicate
       const exists = connections.some(
         (c) =>
           (c.fromId === connectingFrom && c.toId === contactId) ||
@@ -281,7 +272,7 @@ export default function MapPage() {
     [router]
   );
 
-  if (status === "loading" || !event) {
+  if (!event) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-canvas">
         <div className="animate-pulse text-slate-400">Loading map...</div>
@@ -303,9 +294,6 @@ export default function MapPage() {
         currentEventId={eventId}
         onEventChange={handleEventChange}
         contactCount={contacts.length}
-        userName={session?.user?.name}
-        userImage={session?.user?.image}
-        onSignOut={() => signOut({ callbackUrl: "/" })}
       />
 
       <Canvas

@@ -10,6 +10,8 @@ interface AddContactModalProps {
     role: string;
     company: string;
     linkedin: string;
+    email: string;
+    phone: string;
     notes: string;
     status: "active" | "pending" | "inactive";
     color: string;
@@ -43,6 +45,8 @@ export default function AddContactModal({
   const [role, setRole] = useState("");
   const [company, setCompany] = useState("");
   const [linkedin, setLinkedin] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
   const [status, setStatus] = useState<"active" | "pending" | "inactive">(
     "active"
@@ -61,6 +65,8 @@ export default function AddContactModal({
       role,
       company,
       linkedin,
+      email,
+      phone,
       notes,
       status,
       color,
@@ -73,6 +79,8 @@ export default function AddContactModal({
     setRole("");
     setCompany("");
     setLinkedin("");
+    setEmail("");
+    setPhone("");
     setNotes("");
     setStatus("active");
     setColor("#3b82f6");
@@ -158,6 +166,33 @@ export default function AddContactModal({
               className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="https://linkedin.com/in/..."
             />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-medium text-slate-600 mb-1">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="john@example.com"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-slate-600 mb-1">
+                Phone
+              </label>
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="+1 234 567 890"
+              />
+            </div>
           </div>
 
           <div>

@@ -14,6 +14,8 @@ export interface Contact {
   role?: string | null;
   company?: string | null;
   linkedin?: string | null;
+  email?: string | null;
+  phone?: string | null;
   notes?: string | null;
   status: "active" | "pending" | "inactive";
   color?: string | null;

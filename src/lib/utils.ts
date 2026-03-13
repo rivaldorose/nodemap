@@ -1,17 +1,3 @@
-import { auth } from "./auth";
-
-export async function getSession() {
-  return await auth();
-}
-
-export async function requireAuth() {
-  const session = await auth();
-  if (!session?.user?.id) {
-    throw new Error("Unauthorized");
-  }
-  return session;
-}
-
 export function jsonResponse(data: unknown, status = 200) {
   return Response.json(data, { status });
 }

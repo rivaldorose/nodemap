@@ -25,12 +25,14 @@ export default function ContactDetail({
   const [name, setName] = useState(contact.name);
   const [role, setRole] = useState(contact.role || "");
   const [company, setCompany] = useState(contact.company || "");
+  const [email, setEmail] = useState(contact.email || "");
+  const [phone, setPhone] = useState(contact.phone || "");
   const [notes, setNotes] = useState(contact.notes || "");
   const [status, setStatus] = useState(contact.status);
   const [tagInput, setTagInput] = useState("");
 
   const handleSave = () => {
-    onUpdate(contact.id, { name, role, company, notes, status });
+    onUpdate(contact.id, { name, role, company, email, phone, notes, status });
     setEditing(false);
   };
 
@@ -76,6 +78,20 @@ export default function ContactDetail({
               placeholder="Company"
               className="w-full px-2 py-1 border border-slate-200 rounded text-sm focus:outline-none"
             />
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              type="email"
+              className="w-full px-2 py-1 border border-slate-200 rounded text-sm focus:outline-none"
+            />
+            <input
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Phone"
+              type="tel"
+              className="w-full px-2 py-1 border border-slate-200 rounded text-sm focus:outline-none"
+            />
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
@@ -116,6 +132,22 @@ export default function ContactDetail({
             )}
             {contact.company && (
               <p className="text-slate-500">{contact.company}</p>
+            )}
+            {contact.email && (
+              <a
+                href={`mailto:${contact.email}`}
+                className="text-blue-500 text-xs hover:underline block"
+              >
+                {contact.email}
+              </a>
+            )}
+            {contact.phone && (
+              <a
+                href={`tel:${contact.phone}`}
+                className="text-blue-500 text-xs hover:underline block"
+              >
+                {contact.phone}
+              </a>
             )}
             {contact.linkedin && (
               <a

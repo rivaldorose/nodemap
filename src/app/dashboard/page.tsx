@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -13,7 +12,6 @@ interface Event {
 }
 
 export default function Dashboard() {
-  const { data: session, status } = useSession();
   const router = useRouter();
   const [events, setEvents] = useState<Event[]>([]);
   const [showCreate, setShowCreate] = useState(false);
@@ -22,19 +20,11 @@ export default function Dashboard() {
   const [date, setDate] = useState("");
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.replace("/");
-    }
-  }, [status, router]);
-
-  useEffect(() => {
-    if (session) {
-      fetch("/api/events")
-        .then((r) => r.json())
-        .then(setEvents)
-        .catch(console.error);
-    }
-  }, [session]);
+    fetch("/api/events")
+      .then((r) => r.json())
+      .then(setEvents)
+      .catch(console.error);
+  }, []);
 
   const handleCreate = async () => {
     if (!name.trim()) return;
@@ -57,30 +47,11 @@ export default function Dashboard() {
     }
   };
 
-  if (status === "loading") {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="animate-pulse text-slate-400">Loading...</div>
-      </div>
-    );
-  }
-
-  if (!session) return null;
-
   return (
     <div className="min-h-screen bg-slate-50">
       <header className="border-b border-slate-200 bg-white">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <h1 className="text-lg font-bold text-slate-800">NodeMap</h1>
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-slate-500">{session.user?.name}</span>
-            <button
-              onClick={() => signOut()}
-              className="text-xs text-slate-400 hover:text-slate-600"
-            >
-              Sign out
-            </button>
-          </div>
         </div>
       </header>
 
